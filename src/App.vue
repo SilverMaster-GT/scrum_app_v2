@@ -1,8 +1,15 @@
 <template>
+  <Navbar />
+  <router-view v-slot="{ Component, route }">
   <transition name="fade">
-    <router-view></router-view>
+    <component :is="Component" :key="route.path" />
   </transition>
+</router-view>
 </template>
+
+<script setup>
+import Navbar from './components/Navbar.vue';
+</script>
 
 <style>
 .fade-enter-active, .fade-leave-active {

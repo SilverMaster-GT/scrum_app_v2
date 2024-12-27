@@ -1,4 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router';
+import Dashboard from '../views/Dashboard.vue';
+import { Auth } from '../firebase';
+import { onAuthStateChanged } from "firebase/auth";
 
 // Definicion de rutas
 const routes = [
@@ -8,6 +11,18 @@ const routes = [
         name: 'Home',
         component: () => import('../views/Home.vue'),
         props: true,
+    },
+    {
+        path: '/login',
+        name: 'Login',
+        component: () => import('../views/LoginPage.vue'),
+        props:true,
+    },
+    {
+        path: '/dashboard',
+        name: 'dashboard',
+        component: Dashboard,
+        meta: { requiresAuth: true }
     },
     // Rutas no encontradas
     {
@@ -28,6 +43,21 @@ const router = createRouter({
             return { top: 0 };
         }
     },
+});
+
+// validar el inicio de sesión
+router.beforeEach((to, from, next) => {
+    if (to.matched.some((record) => record.meta.requiresAuth)) {
+        onAuthStateChanged(Auth, (user) => {
+          if (user) {
+            next(); // Usuario autenticado, permitir acceso
+          } else {
+            next("/login"); // Redirigir a login si no está autenticado
+          }
+        });
+      } else {
+        next(); // Rutas públicas
+      }
 });
 
 export default router;
