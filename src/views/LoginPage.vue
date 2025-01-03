@@ -35,4 +35,9 @@ const reg = ref(true);
   box-shadow: -1px -1px 6px 0 rgba(122, 221, 102, 1),
     4px 4px 16px 2px rgba(92, 162, 235, 1);
 }
+
+.app {
+    box-shadow: -1px -1px 6px 0 rgba(122, 221, 102, 1),
+    4px 4px 16px 2px rgba(92, 162, 235, 1);
+}
 </style>

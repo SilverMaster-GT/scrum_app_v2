@@ -16,12 +16,19 @@ const routes = [
         path: '/login',
         name: 'Login',
         component: () => import('../views/LoginPage.vue'),
-        props:true,
+        props: true,
     },
     {
         path: '/dashboard',
         name: 'dashboard',
         component: Dashboard,
+        meta: { requiresAuth: true }
+    },
+    {
+        path: '/project/:projectId',
+        name: 'project',
+        component: () => import('../views/Project.vue'),
+        props: true,
         meta: { requiresAuth: true }
     },
     // Rutas no encontradas
