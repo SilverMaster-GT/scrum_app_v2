@@ -69,7 +69,7 @@
   </template>
   
   <script setup>
-  import { ref } from "vue";
+  import { ref, defineProps } from "vue";
   import { useQuasar } from "quasar";
   
   // Reactividad
@@ -81,6 +81,7 @@
     sprintGoal: "",
     team: []
   });
+  const props = defineProps([SprintData])
   
   // Usuarios disponibles (pueden venir de un API o Firestore)
   const users = ref([
