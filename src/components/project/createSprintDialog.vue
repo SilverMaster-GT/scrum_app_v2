@@ -1,6 +1,6 @@
 <template>
-    <q-page>
-      <q-btn label="Crear Sprint" color="primary" @click="isDialogOpen = true" />
+    <q-page style="min-height: auto;">
+      <q-btn label="Crear Sprint" color="primary" @click="isDialogOpen = true; users = props.ProjectData.users;" />
   
       <!-- Dialog -->
       <q-dialog v-model="isDialogOpen">
@@ -71,6 +71,8 @@
   <script setup>
   import { ref, defineProps } from "vue";
   import { useQuasar } from "quasar";
+  import { doc, updateDoc, arrayUnion } from 'firebase/firestore';
+  import { db } from '../../firebase';
   
   // Reactividad
   const isDialogOpen = ref(false);
@@ -81,14 +83,11 @@
     sprintGoal: "",
     team: []
   });
-  const props = defineProps([SprintData])
+  const props = defineProps(['ProjectData','projectId'])
+  const sprints = ref([]);
   
   // Usuarios disponibles (pueden venir de un API o Firestore)
-  const users = ref([
-    "user1@gmail.com",
-    "user2@gmail.com",
-    "user3@gmail.com"
-  ]);
+  const users = ref([]);
   
   // Acceso a las utilidades de Quasar
   const $q = useQuasar();
@@ -127,15 +126,81 @@
       });
       return;
     }
-  
-    // Emitir evento o lógica personalizada
+
+    try {
+      createNewSprintFirestore(
+        props.ProjectData,
+        null,
+        newSprint.value.name,
+        newSprint.value.startDate,
+        newSprint.value.endDate,
+        newSprint.value.team,
+        newSprint.value.sprintGoal,
+    )
     $q.notify({
       type: "positive",
       message: "Sprint creado con éxito"
     });
+    } catch (error) {
+      console.log(error)
+    }
   
-    closeDialog();
   };
+
+  // crear un nuevo sprint:
+  async function createNewSprintFirestore(
+    sprintData, 
+    sprintId, 
+    name, 
+    startDate, 
+    endDate, 
+    teamMembers = [], 
+    sprintGoal = "", 
+    backlog = {}
+) {
+    if (!name || !startDate || !endDate) {
+      console.error("El nombre, la fecha de inicio y la fecha de fin son obligatorios.");
+      return null;
+    }
+
+    if (new Date(startDate) >= new Date(endDate)) {
+      console.error("La fecha de inicio debe ser anterior a la fecha de fin.");
+      return null;
+    }
+
+    // Crear el nuevo sprint
+    const newSprint = {
+      id: sprintId || `Sprint ${sprintData.sprints.length + 1}`,
+      name,
+      startDate,
+      endDate,
+      tasks: {}, // Inicialmente vacío
+      team: teamMembers,
+      sprintGoal,
+      backlog
+    };
+
+    sprints.value = props.ProjectData?.sprints;
+
+    try {
+      // Referencia a la colección de sprints
+      const projectRef = doc(db, "projects", props.projectId);
+
+      // Guardar en Firestore
+      const goal = await updateDoc(projectRef, {sprints: arrayUnion(newSprint)});
+
+      console.log(goal);
+
+      console.log(`Sprint "${name}" creado con éxito y guardado en Firebase.`);
+      return newSprint;
+    } catch (error) {
+      console.error("Error al guardar el sprint en Firebase:", error);
+      return null;
+    } finally {
+      closeDialog();
+    }
+  }
+
   </script>
   
   <style scoped>

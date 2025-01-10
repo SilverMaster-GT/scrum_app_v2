@@ -8,8 +8,9 @@
             <p>{{ project?.description }}</p>
           </q-card-section>
           <q-card-actions>
-            <q-btn label="Crear Sprint" color="primary" @click="createSpringDialog()" />
-            <q-btn label="Backlog" color="primary" @click="navigateTo('backlog')" />
+            <create-sprint-dialog :ProjectData="project" :projectId="props?.projectId"/>
+            <q-btn label="Crear Sprint" color="primary" style="display: none;" />
+            <q-btn label="Backlog" color="primary" @click="navigateTo('backlog/'+props?.projectId)" />
             <q-btn label="WorkItems" color="primary" @click="navigateTo('workitems')" />
             <q-btn label="Boards" color="primary" @click="navigateTo('boards')" />
           </q-card-actions>
@@ -51,7 +52,9 @@
   import { db } from '../firebase';
   import burndownChart from '../components/project/burndown-chart.vue';
   import taskList from '../components/project/task-list.vue';
+  import createSprintDialog from '../components/project/createSprintDialog.vue';
   import { useQuasar } from 'quasar';
+  import { useRouter } from 'vue-router';
   
   // Datos reactivos
   const project = ref(null);
@@ -61,14 +64,7 @@
   const previousSprint = ref([])
   const props = defineProps(['projectId']);
   const $q = useQuasar();
-
-  // Formulario nuevo Sprint
-  const name = ref(null);
-  const startDate = ref(null);
-  const endDate = ref(null);
-  const teamMembers = ref([]);
-  const sprintGoal = ref(null);
-  const backlog = ref({});
+  const router = useRouter();
   
   // Cargar datos del proyecto
   const fetchProjectData = async () => {
@@ -120,6 +116,7 @@
   
   // Navegación
   const navigateTo = (section) => {
+    router.push(section);
     $q.notify({
         message: `Navegando a: ${section}`,
         icon: "arrow_circle_right",
@@ -127,67 +124,6 @@
     });
     // Agregar navegación según sea necesario
   };
-
-  function createSpringDialog() {
-    const form = `
-                 <q-input rounded dense outlined v-model="${name}" />
-                 `
-    $q.dialog({
-      title: 'Nuevo Sprint',
-      message: form,
-      html: true,
-    });
-  }
-  
-
-  // crear un nuevo sprint:
-  async function createNewSprintFirestore(
-    sprintData, 
-    sprintId, 
-    name, 
-    startDate, 
-    endDate, 
-    teamMembers = [], 
-    sprintGoal = "", 
-    backlog = {}
-) {
-    if (!name || !startDate || !endDate) {
-      console.error("El nombre, la fecha de inicio y la fecha de fin son obligatorios.");
-      return null;
-    }
-
-    if (new Date(startDate) >= new Date(endDate)) {
-      console.error("La fecha de inicio debe ser anterior a la fecha de fin.");
-      return null;
-    }
-
-    // Crear el nuevo sprint
-    const newSprint = {
-      id: sprintId || `sprint${sprintData.sprints.length + 1}`,
-      name,
-      startDate,
-      endDate,
-      tasks: {}, // Inicialmente vacío
-      team: teamMembers,
-      sprintGoal,
-      backlog
-    };
-
-    try {
-      // Referencia a la colección de sprints
-      const projectRef = doc(db, "Projects", props.projectId);
-
-      // Guardar en Firestore
-      await updateDoc(projectRef, {sprints: arrayUnion(newSprint)});
-
-      console.log(`Sprint "${name}" creado con éxito y guardado en Firebase.`);
-      return newSprint;
-    } catch (error) {
-      console.error("Error al guardar el sprint en Firebase:", error);
-      return null;
-    }
-  }
-
   
   onMounted(() => {
     fetchProjectData();

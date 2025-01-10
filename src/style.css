@@ -71,3 +71,217 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 }
+
+/* CSS personalizado para Scrum */
+
+/* Buttoms */
+.q-btn {
+  background-color: #4CAF50;
+  color: #FFFFFF;
+  font-weight: 600;
+  border-radius: 6px;
+  padding: 10px 16px;
+  transition: background-color 0.3s ease;
+}
+.q-btn:hover {
+  background-color: #388E3C;
+}
+.q-btn--secondary {
+  background-color: #00ACC1;
+  color: #FFFFFF;
+}
+
+/* Cards */
+.q-card {
+  background-color: #FFFFFF;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  padding: 16px;
+}
+.q-card__title {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #212121;
+}
+.q-card__content {
+  font-size: 1rem;
+  color: #757575;
+}
+
+/* Table */
+.q-table {
+  border-spacing: 0;
+  border-collapse: collapse;
+  width: 100%;
+}
+.q-table th {
+  text-align: left;
+  padding: 12px;
+  background-color: #F1F1F1;
+  color: #212121;
+  font-weight: bold;
+}
+.q-table td {
+  padding: 12px;
+  border-bottom: 1px solid #E0E0E0;
+  color: #757575;
+}
+tr:hover td {
+  background-color: #F5F5F5;
+}
+
+/* Dialog */
+.q-dialog {
+  background-color: #FFFFFF;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+.q-dialog__title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #212121;
+  margin-bottom: 16px;
+}
+.q-dialog__content {
+  font-size: 1rem;
+  color: #757575;
+}
+
+/* CSS Tablero Kanban */
+
+.kanban-board {
+  display: flex;
+  gap: 16px;
+  overflow-x: auto;
+  padding: 16px;
+  background-color: #F9FAFB;
+}
+.kanban-board::-webkit-scrollbar {
+  height: 8px;
+}
+.kanban-board::-webkit-scrollbar-thumb {
+  background-color: #BDBDBD;
+  border-radius: 4px;
+}
+.kanban-column {
+  background-color: #FFFFFF;
+  border: 1px solid #E0E0E0;
+  border-radius: 8px;
+  width: 280px;
+  flex-shrink: 0;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+.kanban-column__header {
+  background-color: #4CAF50;
+  color: #FFFFFF;
+  padding: 12px;
+  border-radius: 8px 8px 0 0;
+  font-weight: bold;
+  text-align: center;
+}
+.kanban-column__body {
+  padding: 12px;
+  max-height: 600px;
+  overflow-y: auto;
+}
+.kanban-column__body::-webkit-scrollbar {
+  width: 8px;
+}
+.kanban-column__body::-webkit-scrollbar-thumb {
+  background-color: #BDBDBD;
+  border-radius: 4px;
+}
+.kanban-card {
+  background-color: #FFFFFF;
+  border: 1px solid #E0E0E0;
+  border-radius: 6px;
+  margin-bottom: 12px;
+  padding: 12px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  cursor: grab;
+  transition: transform 0.2s ease;
+}
+.kanban-card:active {
+  transform: scale(1.03);
+}
+.kanban-card__title {
+  font-size: 1rem;
+  font-weight: bold;
+  color: #212121;
+  margin-bottom: 8px;
+}
+.kanban-card__description {
+  font-size: 0.875rem;
+  color: #757575;
+}
+
+/* CSS Formularios */
+
+.form-container {
+  background-color: #FFFFFF;
+  border: 1px solid #E0E0E0;
+  border-radius: 12px;
+  padding: 24px;
+  max-width: 600px;
+  margin: auto;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+.form-container__title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #212121;
+  margin-bottom: 16px;
+  text-align: center;
+}
+.form-group {
+  margin-bottom: 16px;
+}
+.form-label {
+  display: block;
+  font-size: 1rem;
+  color: #212121;
+  margin-bottom: 8px;
+  font-weight: bold;
+}
+.form-input {
+  width: 100%;
+  padding: 10px 12px;
+  font-size: 1rem;
+  color: #212121;
+  border: 1px solid #E0E0E0;
+  border-radius: 6px;
+  background-color: #F9FAFB;
+  box-sizing: border-box;
+  transition: border-color 0.3s ease;
+}
+.form-input:focus {
+  border-color: #4CAF50;
+  outline: none;
+}
+.form-error {
+  font-size: 0.875rem;
+  color: #FF5252;
+  margin-top: 4px;
+}
+.form-buttons {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+}
+.form-button {
+  background-color: #4CAF50;
+  color: #FFFFFF;
+  font-weight: bold;
+  border: none;
+  border-radius: 6px;
+  padding: 12px 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+.form-button:hover {
+  background-color: #388E3C;
+}
+.form-button--cancel {
+  background-color: #FF5252;
+}

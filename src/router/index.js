@@ -31,6 +31,13 @@ const routes = [
         props: true,
         meta: { requiresAuth: true }
     },
+    {
+        path: '/project/backlog/:projectId',
+        name: 'backlog',
+        component: () => import('../views/Backlog.vue'),
+        props: true,
+        meta: { requiresAuth: true }
+    },
     // Rutas no encontradas
     {
         path: '/:pathMatch(.*)*',
