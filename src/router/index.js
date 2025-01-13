@@ -38,6 +38,13 @@ const routes = [
         props: true,
         meta: { requiresAuth: true }
     },
+    {
+        path: '/project/config/:projectId',
+        name: 'backlog',
+        component: () => import('../views/ConfigPj.vue'),
+        props: true,
+        meta: { requiresAuth: true }
+    },
     // Rutas no encontradas
     {
         path: '/:pathMatch(.*)*',

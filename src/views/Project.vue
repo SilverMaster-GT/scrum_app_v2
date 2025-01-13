@@ -13,6 +13,7 @@
             <q-btn label="Backlog" color="primary" @click="navigateTo('backlog/'+props?.projectId)" />
             <q-btn label="WorkItems" color="primary" @click="navigateTo('workitems')" />
             <q-btn label="Boards" color="primary" @click="navigateTo('boards')" />
+            <q-btn icon="room_preferences" color="primary" @click="navigateTo('config/'+props?.projectId)" />
           </q-card-actions>
         </q-card>
   
